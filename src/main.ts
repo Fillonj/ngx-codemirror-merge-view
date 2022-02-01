@@ -13,13 +13,17 @@ import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
+import 'codemirror/addon/merge/merge';
 
-platformBrowserDynamic().bootstrapModule(AppModule).then(ref => {
-  // Ensure Angular destroys itself on hot reloads.
-  if (window['ngRef']) {
-    window['ngRef'].destroy();
-  }
-  window['ngRef'] = ref;
+platformBrowserDynamic()
+  .bootstrapModule(AppModule)
+  .then((ref) => {
+    // Ensure Angular destroys itself on hot reloads.
+    if (window['ngRef']) {
+      window['ngRef'].destroy();
+    }
+    window['ngRef'] = ref;
 
-  // Otherwise, log the boot error
-}).catch(err => console.error(err));
+    // Otherwise, log the boot error
+  })
+  .catch((err) => console.error(err));

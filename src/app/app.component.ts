@@ -1,43 +1,76 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+
+declare var CodeMirror: any;
 
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
-  styleUrls: [ './app.component.css' ]
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
-  name = 'Angular 6';
-    codeMirrorOptions: any = {
-    theme: 'idea',
-    mode: 'application/ld+json',
-    lineNumbers: true,
-    lineWrapping: true,
-    foldGutter: true,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
-    autoCloseBrackets: true,
-    matchBrackets: true,
-    lint: true
-  };
+export class AppComponent implements OnInit, AfterViewInit {
+  @ViewChild('codemirror') ref: any;
 
-
+  codeMirrorOptions;
   obj;
+  obj2;
 
-  ngOnInit(){
-    this.obj= JSON.stringify({
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "type": "object",
-      "title": "Object",
-      "additionalProperties": false,
-      "properties": {
-        "string": {
-          "type": "string",
-          "title": "String"
-        }
-      }
-    }, null, ' ');
+  ngAfterViewInit(): void {
+    CodeMirror.mergedView();
   }
-  setEditorContent(event) {
-    // console.log(event, typeof event);
-    console.log(this.obj);
+
+  ngOnInit() {
+    this.obj = JSON.stringify(
+      {
+        $schema: 'http://json-schema.org/draft-07/schema#',
+        type: 'object',
+        title: 'Object',
+        additionalProperties: false,
+        properties: {
+          string: {
+            type: 'string',
+            title: 'String',
+          },
+        },
+      },
+      null,
+      ' '
+    );
+
+    this.obj2 = JSON.stringify(
+      {
+        $schema: 'http://json-schema.org/draft-07/schema#',
+        type: 'object2',
+        title: 'Object2',
+        additionalProperties: false,
+        properties: {
+          string: {
+            type: 'Modifier',
+            title: 'String',
+          },
+        },
+      },
+      null,
+      ' '
+    );
+
+    this.codeMirrorOptions = {
+      theme: 'cobalt',
+      mode: 'javascript',
+      readOnly: true,
+      lineNumbers: true,
+      lineWrapping: true,
+      foldGutter: true,
+      gutters: [
+        'CodeMirror-linenumbers',
+        'CodeMirror-foldgutter',
+        'CodeMirror-lint-markers',
+      ],
+      autoCloseBrackets: true,
+      matchBrackets: true,
+      lint: true,
+      showDifferences: true,
+      origLeft: this.obj,
+      value: this.obj2,
+    };
   }
 }
