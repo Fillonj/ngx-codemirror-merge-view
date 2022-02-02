@@ -14,6 +14,7 @@ import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/lint/json-lint';
 import 'codemirror/addon/merge/merge';
+import 'diff-match-patch';
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)

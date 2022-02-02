@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-
-declare var CodeMirror: any;
+import * as CodeMirror from 'codemirror';
 
 @Component({
   selector: 'my-app',
@@ -8,18 +7,53 @@ declare var CodeMirror: any;
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('codemirror') ref: any;
+  /** Référence de l'élément qui contiendra le composant codeMirror */
+  @ViewChild('container') container: any;
 
-  codeMirrorOptions;
-  obj;
-  obj2;
+  /** Ancien modèle **/
+  private oldModel: any;
 
+  /** Nouveau modèle **/
+  private newModel: any;
+
+  /** Options d'affichage **/
+  private options: any = {
+    lineNumbers: true,
+    smartIndent: true,
+    //autofocus: true,
+    theme: 'cobalt',
+    mode: 'application/ld+json',
+    revertButtons: false,
+    showDifferences: true,
+    readOnly: true,
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+    collapseIdentical: true,
+    foldGutter: true,
+  };
+
+  /**
+   * Initialisation après chargement de la vue
+   */
   ngAfterViewInit(): void {
-    CodeMirror.mergedView();
+    //Mise en cycle
+    setTimeout(() =>
+      //Chargement du composant MergeView dans le container
+      CodeMirror.MergeView(this.container.nativeElement, {
+        ...this.options,
+        origLeft: this.oldModel,
+        value: this.newModel,
+      })
+    );
   }
 
+  /**
+   * Initialisation
+   */
   ngOnInit() {
-    this.obj = JSON.stringify(
+    //Définition de l'ancien modèle
+    this.oldModel = JSON.stringify(
       {
         $schema: 'http://json-schema.org/draft-07/schema#',
         type: 'object',
@@ -36,7 +70,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       ' '
     );
 
-    this.obj2 = JSON.stringify(
+    //Définition du nouveau modèle
+    this.newModel = JSON.stringify(
       {
         $schema: 'http://json-schema.org/draft-07/schema#',
         type: 'object2',
@@ -52,25 +87,5 @@ export class AppComponent implements OnInit, AfterViewInit {
       null,
       ' '
     );
-
-    this.codeMirrorOptions = {
-      theme: 'cobalt',
-      mode: 'javascript',
-      readOnly: true,
-      lineNumbers: true,
-      lineWrapping: true,
-      foldGutter: true,
-      gutters: [
-        'CodeMirror-linenumbers',
-        'CodeMirror-foldgutter',
-        'CodeMirror-lint-markers',
-      ],
-      autoCloseBrackets: true,
-      matchBrackets: true,
-      lint: true,
-      showDifferences: true,
-      origLeft: this.obj,
-      value: this.obj2,
-    };
   }
 }
