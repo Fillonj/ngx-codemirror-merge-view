@@ -1,3 +1,5 @@
-# ngx-codemirror-qqzs9a
+# ngx-codemirror-merge-view
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/ngx-codemirror-qqzs9a)
+Code example to use mergeView with merge.js addon from codemirror with ngx-codemirror
+
+[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/ngx-codemirror-merge-view)
